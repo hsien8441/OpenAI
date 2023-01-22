@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChatGPT API Example</title>
+</head>
+<body>
+  <h1>ChatGPT API Example</h1>
+  <form>
+    <label>輸入文字:</label>
+    <input type="text" id="input-text">
+    <button type="button" onclick="generateText()">產生文字</button>
+  </form>
+  <div id="output"></div>
+  <script>
+    function generateText() {
+      // 讀取使用者輸入的文字
+      var inputText = document.getElementById("input-text").value;
+      // 使用 fetch 向 ChatGPT API 發送請求
+      fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "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"
+        },
+        body: JSON.stringify({
+          prompt: inputText,
+          max_tokens: 2048
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // 將 ChatGPT 生成的文字顯示在網頁上
+        document.getElementById("output").innerHTML = data.choices[0].text;
+      })
+      .catch(error => console.log(error));
+    }
+  </script>
+</body>
+</html>
